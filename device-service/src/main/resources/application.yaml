@@ -1,0 +1,13 @@
+server:
+  port: 8082
+
+spring:
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+
+logging:
+  level:
+    cz.inventi.kpj: DEBUG
+    org.springframework.messaging: DEBUG
+    org.springframework.security: DEBUG

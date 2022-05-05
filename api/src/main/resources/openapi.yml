@@ -1,0 +1,100 @@
+openapi: 3.0.2
+info:
+  title: "Java template service"
+  description: "Example of java microservice API defined with OpenApi v3"
+  version: 1.0.0
+
+tags:
+  - name: devices
+    description: Box devices
+
+paths:
+  /devices:
+    get:
+      tags:
+        - devices
+      operationId: "getDevices"
+      summary: List of devices
+      description: >-
+        Returns list of devices which can be used for creating CCS records
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Device"
+    post:
+      tags:
+        - devices
+      operationId: "createDevice"
+      summary: Creates a device with given data
+      description: >-
+        Creates a new device to be used for creating CSS records
+      requestBody:
+        $ref: '#/components/requestBodies/CreateDeviceRequestBody'
+      responses:
+        202:
+          description: Request for device creation was accepted for processing
+
+components:
+  requestBodies:
+    CreateDeviceRequestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateDeviceRequest'
+  schemas:
+    CreateDeviceRequest:
+      description: Request for device creation
+      properties:
+        mac:
+          type: string
+          format: mac_address
+          example: "112233445566"
+      required:
+        - "mac"
+
+    Device:
+      required:
+        - "id"
+        - "mac"
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+          example: "53a53150-e127-11e9-8135-54e1ad105857"
+        mac:
+          type: string
+          format: mac_address
+          readOnly: true
+          example: "112233445566"
+        online:
+          type: boolean
+          readOnly: true
+          default: false
+          example: false
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+          example: 404
+        error:
+          type: string
+          example: "Not found"
+        message:
+          type: string
+          example: "Entity with ID xxx-xxx-xxx not found."
+        timestamp:
+          type: string
+          format: date-time
+          example: "2019-09-25T12:47:35.146Z"
+        exception:
+          type: string
+          example: "javax.ws.rs.NotFoundException"
