@@ -8,13 +8,13 @@
     <packaging>pom</packaging>
 
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <spring-boot.version>2.2.4.RELEASE</spring-boot.version>
-        <swagger.version>1.6.0</swagger.version>
-        <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
-        <openapi-generator-maven-plugin.version>4.3.1</openapi-generator-maven-plugin.version>
+        <spring-boot.version>3.1.4</spring-boot.version>
+        <swagger.version>2.2.16</swagger.version>
+        <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+        <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
     </properties>
 
     <modules>
@@ -32,7 +32,7 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>io.swagger</groupId>
+                <groupId>io.swagger.core.v3</groupId>
                 <artifactId>swagger-annotations</artifactId>
                 <version>${swagger.version}</version>
             </dependency>
@@ -40,7 +40,7 @@
             <dependency>
                 <groupId>org.openapitools</groupId>
                 <artifactId>jackson-databind-nullable</artifactId>
-                <version>0.2.0</version>
+                <version>${jackson-databind-nullable.version}</version>
             </dependency>
 
         </dependencies>
@@ -49,11 +49,6 @@
     <build>
         <pluginManagement>
             <plugins>
-                <plugin>
-                    <groupId>org.openapitools</groupId>
-                    <artifactId>openapi-generator-maven-plugin</artifactId>
-                    <version>${openapi-generator-maven-plugin.version}</version>
-                </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
@@ -70,6 +65,11 @@
                             </goals>
                         </execution>
                     </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.openapitools</groupId>
+                    <artifactId>openapi-generator-maven-plugin</artifactId>
+                    <version>${openapi-generator-maven-plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>

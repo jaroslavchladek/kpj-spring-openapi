@@ -1,100 +1,141 @@
-openapi: 3.0.2
+openapi: 3.1.0
+
 info:
-  title: "Java template service"
-  description: "Example of java microservice API defined with OpenApi v3"
-  version: 1.0.0
+  title: The best KPJ Spring Web API
+  version: 0.1.0
+  description: This is just a testing API file.
 
 tags:
-  - name: devices
-    description: Box devices
+  - name: Devices
+    description: Device management
 
 paths:
   /devices:
     get:
       tags:
-        - devices
-      operationId: "getDevices"
-      summary: List of devices
-      description: >-
-        Returns list of devices which can be used for creating CCS records
+        - Devices
+      summary: Returns the list of all devices
+      operationId: listDevices
       responses:
         200:
-          description: OK
+          description: A successfully retrieved list of devices.
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Device"
+                $ref: "#/components/schemas/Devices"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseResponse"
     post:
       tags:
-        - devices
-      operationId: "createDevice"
-      summary: Creates a device with given data
-      description: >-
-        Creates a new device to be used for creating CSS records
+        - Devices
+      summary: Allows to create a new device.
+      operationId: createDevice
       requestBody:
-        $ref: '#/components/requestBodies/CreateDeviceRequestBody'
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeviceRequest"
       responses:
-        202:
-          description: Request for device creation was accepted for processing
+        201:
+          description: Device successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Device"
+        400:
+          description: Invalid input, object invalid
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseResponse"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseResponse"
+
+    delete:
+      tags:
+        - Devices
+      summary: Deletes all devices.
+      operationId: removeDevices
+      responses:
+        204:
+          description: All devices successfully deleted.
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseResponse"
+
+  /devices/{deviceId}:
+    put:
+      tags:
+        - Devices
+      parameters:
+        - name: deviceId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      summary: Updates a device.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeviceRequest"
+      responses:
+        200:
+          description: Device successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Device"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseResponse"
 
 components:
-  requestBodies:
-    CreateDeviceRequestBody:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/CreateDeviceRequest'
   schemas:
-    CreateDeviceRequest:
-      description: Request for device creation
+    BaseResponse:
+      type: object
+      description: Base response, used for all generic responses.
       properties:
-        mac:
+        status:
           type: string
-          format: mac_address
-          example: "112233445566"
-      required:
-        - "mac"
-
+          example: "OK"
+        code:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: "Everything is OK"
+    DeviceRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "R2D2"
+    Devices:
+      type: array
+      items:
+        $ref: "#/components/schemas/Device"
     Device:
-      required:
-        - "id"
-        - "mac"
       type: object
       properties:
         id:
           type: string
           format: uuid
-          readOnly: true
-          example: "53a53150-e127-11e9-8135-54e1ad105857"
-        mac:
+        name:
           type: string
-          format: mac_address
-          readOnly: true
-          example: "112233445566"
-        online:
-          type: boolean
-          readOnly: true
-          default: false
-          example: false
-    ErrorResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          format: int32
-          example: 404
-        error:
-          type: string
-          example: "Not found"
-        message:
-          type: string
-          example: "Entity with ID xxx-xxx-xxx not found."
-        timestamp:
-          type: string
-          format: date-time
-          example: "2019-09-25T12:47:35.146Z"
-        exception:
-          type: string
-          example: "javax.ws.rs.NotFoundException"
+          example: "R2D2"
