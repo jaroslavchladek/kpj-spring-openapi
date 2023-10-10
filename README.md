@@ -7,7 +7,7 @@ One of examples for the students of Inventi Java Academy.
 
 ## Requirements
 
-- Java 11+
+- Java 17+
 - Maven 3.6.0+
 
 ## How to
