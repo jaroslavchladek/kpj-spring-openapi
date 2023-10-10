@@ -19,7 +19,6 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <openapi.base.package>openapi</openapi.base.package>
-        <openapi-generator-maven-plugin.version>6.6.0</openapi-generator-maven-plugin.version>
         <jakarta.validation-api.version>3.0.2</jakarta.validation-api.version>
     </properties>
 
@@ -72,7 +71,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>openapi.yml</inputSpec>
+                            <inputSpec>openapi.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <configOptions>
                                 <sourceFolder>/</sourceFolder>
@@ -83,6 +82,7 @@
                                 <dateLibrary>java8</dateLibrary>
                                 <booleanGetterPrefix>is</booleanGetterPrefix>
                                 <useSpringBoot3>true</useSpringBoot3>
+                                <openApiNullable>false</openApiNullable>
                             </configOptions>
                             <environmentVariables>
                                 <apis>devices</apis>

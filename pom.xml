@@ -15,6 +15,7 @@
         <swagger.version>2.2.16</swagger.version>
         <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
         <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
+        <openapi-generator-maven-plugin.version>7.0.1</openapi-generator-maven-plugin.version>
     </properties>
 
     <modules>
